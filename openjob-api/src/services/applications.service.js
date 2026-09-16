@@ -134,7 +134,7 @@ export const getApplicationsByJob = async (jobId) => {
 
 export const updateApplicationStatus = async (id, status) => {
   const query = {
-    text: "UPDATE applications SET status = $1 WHERE id = $2 RETURNING id",
+    text: "UPDATE applications SET status = $1 WHERE id = $2 RETURNING id, user_id, job_id",
     values: [status, id],
   };
 
@@ -142,11 +142,13 @@ export const updateApplicationStatus = async (id, status) => {
   if (result.rowCount === 0) {
     throw new NotFoundError("Gagal memperbarui. Lamaran tidak ditemukan.");
   }
+
+  return result.rows[0];
 };
 
 export const deleteApplication = async (id) => {
   const query = {
-    text: "DELETE FROM applications WHERE id = $1 RETURNING id",
+    text: "DELETE FROM applications WHERE id = $1 RETURNING id, user_id, job_id",
     values: [id],
   };
 
@@ -154,4 +156,6 @@ export const deleteApplication = async (id) => {
   if (result.rowCount === 0) {
     throw new NotFoundError("Gagal menghapus. Lamaran tidak ditemukan.");
   }
+
+  return result.rows[0];
 };
