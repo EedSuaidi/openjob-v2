@@ -14,6 +14,7 @@ import {
 export const registerUser = async (req, res, next) => {
   try {
     const userId = await usersService.createUser(req.body);
+    await deleteCache(userDetailCacheKey(userId));
 
     res.set("X-Data-Source", "database");
     res.status(201).json({
@@ -58,7 +59,7 @@ export const putUser = async (req, res, next) => {
 
     if (userIdFromToken !== userIdFromParam) {
       throw new AuthorizationError(
-        "Anda tidak memiliki izin untuk memperbarui data pengguna lain."
+        "Anda tidak memiliki izin untuk memperbarui data pengguna lain.",
       );
     }
 

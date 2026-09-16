@@ -25,6 +25,7 @@ export const postApplication = async (req, res, next) => {
     );
     await deleteCache(
       APPLICATION_LIST_CACHE_KEY,
+      applicationDetailCacheKey(application.id),
       applicationsByUserCacheKey(userId),
       applicationsByJobCacheKey(job_id),
     );
@@ -44,12 +45,10 @@ export const getApplications = async (req, res, next) => {
     const cachedApplications = await getCache(APPLICATION_LIST_CACHE_KEY);
     if (cachedApplications !== null) {
       res.set("X-Data-Source", "cache");
-      return res
-        .status(200)
-        .json({
-          status: "success",
-          data: { applications: cachedApplications },
-        });
+      return res.status(200).json({
+        status: "success",
+        data: { applications: cachedApplications },
+      });
     }
 
     const applications = await applicationsService.getApplications();
@@ -89,12 +88,10 @@ export const getApplicationsByUser = async (req, res, next) => {
     const cachedApplications = await getCache(cacheKey);
     if (cachedApplications !== null) {
       res.set("X-Data-Source", "cache");
-      return res
-        .status(200)
-        .json({
-          status: "success",
-          data: { applications: cachedApplications },
-        });
+      return res.status(200).json({
+        status: "success",
+        data: { applications: cachedApplications },
+      });
     }
 
     const applications = await applicationsService.getApplicationsByUser(
@@ -114,12 +111,10 @@ export const getApplicationsByJob = async (req, res, next) => {
     const cachedApplications = await getCache(cacheKey);
     if (cachedApplications !== null) {
       res.set("X-Data-Source", "cache");
-      return res
-        .status(200)
-        .json({
-          status: "success",
-          data: { applications: cachedApplications },
-        });
+      return res.status(200).json({
+        status: "success",
+        data: { applications: cachedApplications },
+      });
     }
 
     const applications = await applicationsService.getApplicationsByJob(

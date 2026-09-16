@@ -15,9 +15,9 @@ export const postCompany = async (req, res, next) => {
   try {
     const companyId = await companiesService.createCompany(
       req.body,
-      req.user.id
+      req.user.id,
     );
-    await deleteCache(COMPANY_LIST_CACHE_KEY);
+    await deleteCache(COMPANY_LIST_CACHE_KEY, companyDetailCacheKey(companyId));
     res.set("X-Data-Source", "database");
     res
       .status(201)
@@ -69,7 +69,7 @@ export const putCompany = async (req, res, next) => {
     await companiesService.updateCompany(req.params.id, req.body);
     await deleteCache(
       COMPANY_LIST_CACHE_KEY,
-      companyDetailCacheKey(req.params.id)
+      companyDetailCacheKey(req.params.id),
     );
     res.set("X-Data-Source", "database");
     res
@@ -85,7 +85,7 @@ export const deleteCompany = async (req, res, next) => {
     await companiesService.deleteCompany(req.params.id);
     await deleteCache(
       COMPANY_LIST_CACHE_KEY,
-      companyDetailCacheKey(req.params.id)
+      companyDetailCacheKey(req.params.id),
     );
     res.set("X-Data-Source", "database");
     res

@@ -5,6 +5,7 @@ export const CACHE_TTL_SECONDS = 60 * 60;
 export const COMPANY_LIST_CACHE_KEY = "companies:list";
 export const USER_DETAIL_CACHE_KEY = "users";
 export const APPLICATION_LIST_CACHE_KEY = "applications:list";
+export const bookmarksByUserCacheKey = (id) => `bookmarks:user:${id}`;
 export const companyDetailCacheKey = (id) => `companies:${id}`;
 export const userDetailCacheKey = (id) => `users:${id}`;
 export const applicationDetailCacheKey = (id) => `applications:${id}`;
